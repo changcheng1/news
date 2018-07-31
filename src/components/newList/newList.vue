@@ -32,7 +32,7 @@
 <script>
 /* eslint-disable */
 import scroll from 'components/scroll/scroll'
-import { url } from 'common/js/common.js'
+import { url, shareUrl } from 'common/js/common.js'
 import loading from 'components/loading/loading'
 export default {
   data() {
@@ -40,10 +40,13 @@ export default {
       myIndex: 1,
       loadingBmShow: false,
       newList: [],
+      headerTitle: '',
       title: '正在载入...',
+      wxList: {},
       currentPage: 1,
       showCount: 4,
       loadingShow: true,
+      wxShare: {},
       headerList: [
         {
           name: '公司新闻 ',
@@ -65,7 +68,16 @@ export default {
     }
   },
   created() {
-    this.getListJson('1')
+    let self = this
+    // 获取配置的wx标题和img图片
+    this.getShareList().then(response => {
+      self.wxList = response[self.$route.params.index].title
+      self.headerTitle = response[self.$route.params.index].title
+      // 微信链接配置
+      self.WXconfig.wxShowMenu(response[self.$route.params.index])
+      // 获取主页的新闻列表
+      self.getListJson('1', response[self.$route.params.index])
+    })
   },
   methods: {
     headerCli(index, id) {
@@ -75,20 +87,33 @@ export default {
         this.$refs.wrapper.refresh()
       })
     },
-    getListJson(id) {
+    getShareList() {
+      let self = this
+      return new Promise((resolve, reject) => {
+        this.$http
+          .get(`${shareUrl}/young/code/getPartyList.do`, {})
+          .then(function(response) {
+            self.contentArr = response.data
+            resolve(response.data)
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+      })
+    },
+    getListJson(id, item) {
       var that = this
       return new Promise((resolve, reject) => {
         this.$http
-          .get(`${url}getList.do`, {
-            params: {
-              Type: id,
-              currentPage: 1,
-              showCount: 4
-            }
+          .post(`${shareUrl}/young/code/getList.do`, {
+            Type: id,
+            currentPage: 1,
+            showCount: 4,
+            date: this.$route.params.date,
+            partya: this.$route.params.name
           })
           .then(function(response) {
             that.newList = response.data
-            console.log(that.newList)
           })
       })
     },
@@ -98,12 +123,12 @@ export default {
       var that = this
       return new Promise((resolve, reject) => {
         this.$http
-          .get(`${url}getList.do`, {
-            params: {
-              Type: this.myIndex,
-              currentPage: this.currentPage,
-              showCount: this.showCount
-            }
+          .post(`${shareUrl}/young/code/getList.do`, {
+            Type: this.myIndex,
+            currentPage: this.currentPage,
+            showCount: this.showCount,
+            date: this.$route.params.date,
+            partya: this.$route.params.name
           })
           .then(function(response) {
             if (!response.data.length) {
@@ -182,7 +207,7 @@ header div:nth-child(2) {
   text-align: center;
 }
 .top_menu_list a {
-  padding: 0.08rem 0.18rem;
+  padding: 0.08rem 0.06rem;
   text-decoration: none;
   border: 1px solid #558e65;
   margin-left: 0.12rem;

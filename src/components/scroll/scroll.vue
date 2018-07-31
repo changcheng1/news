@@ -57,7 +57,7 @@ export default {
       // 用来拿x轴和y轴的位置,判断位置
       if (this.listenScroll) {
         let me = this
-        this.scroll.on('scroll', pos => {
+        this.scroll.on('scrollEnd', pos => {
           if (pos.y <= this.scroll.maxScrollY + 50) {
             me.$emit('scroll', pos)
           }

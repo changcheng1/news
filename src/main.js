@@ -8,6 +8,7 @@ import '../src/assets/css/rem'
 import WXconfig from './assets/js/wx.jsapi'
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+Vue.prototype.WXconfig = WXconfig
 // import Vconsole from 'vconsole'
 // let vConsole = new Vconsole()
 // export default vConsole

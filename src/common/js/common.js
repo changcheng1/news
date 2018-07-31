@@ -1,1 +1,2 @@
-export const url = 'http://101.37.124.112/young/code/'
+export const url = 'http://www.yyoungpr.cn'
+export const shareUrl = 'http://www.yyoungpr.cn'
