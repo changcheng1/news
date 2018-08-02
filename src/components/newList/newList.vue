@@ -91,7 +91,11 @@ export default {
       let self = this
       return new Promise((resolve, reject) => {
         this.$http
-          .get(`${shareUrl}/young/code/getPartyList.do`, {})
+          .get(`${shareUrl}/young/code/getPartyList.do`, {
+            params:{
+              data:this.$route.params.date
+            }
+          })
           .then(function(response) {
             self.contentArr = response.data
             resolve(response.data)

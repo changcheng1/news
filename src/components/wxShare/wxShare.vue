@@ -41,7 +41,11 @@ export default {
     getWxShare() {
       let self = this
       this.$http
-        .get(`${shareUrl}/young/code/getPartyList.do`, {})
+        .get(`${shareUrl}/young/code/getPartyList.do`, {
+          params:{
+            date:window.location.href.split('=')[1]
+          }
+        })
         .then(function(response) {
           self.contentArr = response.data
         })
