@@ -34,22 +34,20 @@ export default {
     }
   },
   created() {
-    let self = this
     this.getWxShare()
   },
   methods: {
     getWxShare() {
-      let self = this
       this.$http
         .get(`${shareUrl}/young/code/getPartyList.do`, {
-          params:{
-            date:window.location.href.split('=')[1]
+          params: {
+            date: window.location.href.split('=')[1]
           }
         })
-        .then(function(response) {
-          self.contentArr = response.data
+        .then(response => {
+          this.contentArr = response.data
         })
-        .catch(function(error) {
+        .catch(error => {
           console.log(error)
         })
     },

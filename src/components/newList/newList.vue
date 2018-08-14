@@ -68,15 +68,14 @@ export default {
     }
   },
   created() {
-    let self = this
     // 获取配置的wx标题和img图片
     this.getShareList().then(response => {
-      self.wxList = response[self.$route.params.index].title
-      self.headerTitle = response[self.$route.params.index].title
+      this.wxList = response[this.$route.params.index].title
+      this.headerTitle = response[this.$route.params.index].title
       // 微信链接配置
-      self.WXconfig.wxShowMenu(response[self.$route.params.index])
+      this.WXconfig.wxShowMenu(response[this.$route.params.index])
       // 获取主页的新闻列表
-      self.getListJson('1', response[self.$route.params.index])
+      this.getListJson('1', response[this.$route.params.index])
     })
   },
   methods: {
@@ -88,25 +87,23 @@ export default {
       })
     },
     getShareList() {
-      let self = this
       return new Promise((resolve, reject) => {
         this.$http
           .get(`${shareUrl}/young/code/getPartyList.do`, {
-            params:{
-              data:this.$route.params.date
+            params: {
+              data: this.$route.params.date
             }
           })
-          .then(function(response) {
-            self.contentArr = response.data
+          .then(response => {
+            this.contentArr = response.data
             resolve(response.data)
           })
-          .catch(function(error) {
+          .catch(error => {
             console.log(error)
           })
       })
     },
     getListJson(id, item) {
-      var that = this
       return new Promise((resolve, reject) => {
         this.$http
           .post(`${shareUrl}/young/code/getList.do`, {
@@ -116,15 +113,14 @@ export default {
             date: this.$route.params.date,
             partya: this.$route.params.name
           })
-          .then(function(response) {
-            that.newList = response.data
+          .then(response => {
+            this.newList = response.data
           })
       })
     },
     scroll() {
       this.currentPage++
       this.loadingBmShow = true
-      var that = this
       return new Promise((resolve, reject) => {
         this.$http
           .post(`${shareUrl}/young/code/getList.do`, {
@@ -134,31 +130,31 @@ export default {
             date: this.$route.params.date,
             partya: this.$route.params.name
           })
-          .then(function(response) {
+          .then(response => {
             if (!response.data.length) {
-              that.title = '暂无数据...'
-              that.loadingShow = false
+              this.title = '暂无数据...'
+              this.loadingShow = false
               setTimeout(function() {
-                that.loadingBmShow = false
+                this.loadingBmShow = false
               }, 2000)
-              that.$nextTick(() => {
-                that.$refs.wrapper.refresh()
+              this.$nextTick(() => {
+                this.$refs.wrapper.refresh()
               })
             } else {
-              that.newList = that.newList.concat(response.data)
+              this.newList = this.newList.concat(response.data)
               setTimeout(function() {
-                that.loadingBmShow = false
+                this.loadingBmShow = false
               }, 2000),
                 // 在下次视图更新之后再调用
-                that.$nextTick(() => {
-                  that.$refs.wrapper.refresh()
+                this.$nextTick(() => {
+                  this.$refs.wrapper.refresh()
                 })
             }
           })
-          .catch(function(error) {
+          .catch(error => {
             console.log(error)
-            that.title = '加载失败...'
-            that.loadingBmShow = false
+            this.title = '加载失败...'
+            this.loadingBmShow = false
           })
       })
     },
