@@ -8,6 +8,7 @@ export default {
       url: window.location.href.split('#')[0]
     }).then(function (res) {
       var getMsg = res.data;
+      console.log(getMsg)
       wx.config({
         debug: false, //生产环境需要关闭debug模式
         appId: getMsg.appid, //appId通过微信服务号后台查看

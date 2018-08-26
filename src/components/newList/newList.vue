@@ -4,7 +4,7 @@
       <div>地素时尚舆情简报</div>
     </header>
     <div class="top_menu_list">
-      <a v-for="(item,index) in headerList" :key="index" @click="headerCli(index,item.id)" :class="{'current':myIndex===index+1}" class="header_item">{{item.name}}</a>
+      <a v-for="(item,index) in headerList" :key="index" @click="headerCli(index,item.id)" :class="{'current':currentIndex===index}" class="header_item">{{item.name}}</a>
     </div>
     <div>
       <scroll class="wrapper" :listenScroll="true" ref="wrapper" @scroll="scroll" :probeType="2">
@@ -37,6 +37,7 @@ import loading from 'components/loading/loading'
 export default {
   data() {
     return {
+      currentIndex: 0,
       myIndex: 1,
       loadingBmShow: false,
       newList: [],
@@ -52,17 +53,13 @@ export default {
           name: '公司新闻 ',
           id: '1'
         },
-        // {
-        //   name: '同业新闻 ',
-        //   id: '2'
-        // },
         {
           name: '行业新闻 ',
-          id: '2'
+          id: '3'
         },
         {
           name: '资本市场新闻 ',
-          id: '3'
+          id: '4'
         }
       ]
     }
@@ -81,6 +78,7 @@ export default {
   methods: {
     headerCli(index, id) {
       this.myIndex = Number(id)
+      this.currentIndex = index
       this.currentPage = 1
       this.getListJson(this.myIndex).then(function() {
         this.$refs.wrapper.refresh()
@@ -91,7 +89,7 @@ export default {
         this.$http
           .get(`${shareUrl}/young/code/getPartyList.do`, {
             params: {
-              data: this.$route.params.date
+              date: this.$route.params.date
             }
           })
           .then(response => {
