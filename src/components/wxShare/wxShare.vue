@@ -25,6 +25,8 @@
 /* eslint-disable */
 import scroll from 'components/scroll/scroll'
 import { shareUrl } from 'common/js/common.js'
+import Lockr from 'lockr'
+Lockr.prefix = 'lockr_';
 export default {
   data() {
     return {
@@ -34,6 +36,7 @@ export default {
     }
   },
   created() {
+    Lockr.flush();
     this.getWxShare()
   },
   methods: {

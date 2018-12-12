@@ -10,15 +10,15 @@ export default new Router({
   routes: [{
     path: '/:date/:name/:index/',
     name: 'newList',
-    component: newList
+    component: newList,
   }, {
     path: '/newDetail/:id',
     name: 'newDetail',
-    component: newDetail
+    component: newDetail,
   }, {
     path: '/wxShare',
     name: 'wxShare',
-    component: wxShare
+    component: wxShare,
   }, {
     path: '*',
     component: NotFoundComponent

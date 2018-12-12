@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <header>
-      <div>地素时尚舆情简报</div>
+      <div>{{name}}舆情简报</div>
     </header>
     <div class="top_menu_list">
       <a v-for="(item,index) in headerList" :key="index" @click="headerCli(index,item.id)" :class="{'current':currentIndex===index}" class="header_item">{{item.name}}</a>
@@ -34,6 +34,8 @@
 import scroll from 'components/scroll/scroll'
 import { url, shareUrl } from 'common/js/common.js'
 import loading from 'components/loading/loading'
+import Lockr from 'lockr'
+Lockr.prefix = 'lockr_';
 export default {
   data() {
     return {
@@ -48,6 +50,7 @@ export default {
       showCount: 4,
       loadingShow: true,
       wxShare: {},
+      name:"地素时尚",
       headerList: [
         {
           name: '公司新闻 ',
@@ -66,17 +69,27 @@ export default {
   },
   created() {
     // 获取配置的wx标题和img图片
-    this.getShareList().then(response => {
+      this.name = this.$route.params.name
+      this.getShareList().then(response => {
       this.wxList = response[this.$route.params.index].title
       this.headerTitle = response[this.$route.params.index].title
       // 微信链接配置
       this.WXconfig.wxShowMenu(response[this.$route.params.index])
+      let id = Lockr.get('id')
+      let index = Lockr.get('index')
+      if(id){
+        this.headerCli(index,id)
+      }else{
+        this.getListJson('1', response[this.$route.params.index])
+      }
       // 获取主页的新闻列表
-      this.getListJson('1', response[this.$route.params.index])
+      
     })
   },
   methods: {
     headerCli(index, id) {
+      Lockr.set('index',index)
+      Lockr.set('id',id)
       this.myIndex = Number(id)
       this.currentIndex = index
       this.currentPage = 1
