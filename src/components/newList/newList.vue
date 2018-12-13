@@ -102,7 +102,7 @@ export default {
         this.$http
           .get(`${shareUrl}/young/code/getPartyList.do`, {
             params: {
-              data: this.$route.params.date
+              date: this.$route.params.date
             }
           })
           .then(response => {

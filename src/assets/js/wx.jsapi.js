@@ -22,14 +22,14 @@ export default {
       });
       wx.ready(function () {
         wx.onMenuShareTimeline({
-          title: item.title, // 分享标题
+          title: item.NAME+'舆情简报', // 分享标题
           desc: item.content, //分享描述
           link: window.location.href, // 分享链接
           imgUrl: item.logoUrl // 分享图标
         });
         //分享给朋友
         wx.onMenuShareAppMessage({
-          title: item.title, // 分享标题
+          title: item.NAME+'舆情简报', // 分享标题
           desc: item.content, // 分享描述
           link: window.location.href, // 分享链接
           imgUrl: item.logoUrl,
