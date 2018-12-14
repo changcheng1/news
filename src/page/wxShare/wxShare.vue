@@ -13,7 +13,6 @@
               <span class="flexItem">
                 <button @click="shareNews(item,index)" class="wxShare_button">点击进入</button>
               </span>
-              <input type="text">
             </div>
           </div>
         </div>
@@ -58,7 +57,12 @@ export default {
     shareNews(item, index) {
       let date = window.location.href.split('=')[1]
       this.$router.push({
-        path: `/${date}/${item.NAME}/${index}`
+        path:'/newList',
+        query:{
+          data:date,
+          name:item.Name,
+          index:index
+        }
       })
     }
   },
