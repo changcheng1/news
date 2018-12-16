@@ -57,7 +57,8 @@ export default {
     shareNews(item, index) {
       let date = window.location.href.split('=')[1]
       this.$router.push({
-        path: `/${date}/${item.NAME}/${index}`
+        path:'/newList',
+        query:{date:date,name:item.NAME,index:index}
       })
     }
   },

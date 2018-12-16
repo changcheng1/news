@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <header>
-      <div>{{name}}舆情简报</div>
+      <div>{{$route.query.name}}舆情简报</div>
     </header>
     <div class="top_menu_list">
       <a v-for="(item,index) in headerList" :key="index" @click="headerCli(index,item.id)" :class="{'current':currentIndex===index}" class="header_item">{{item.name}}</a>
@@ -69,21 +69,19 @@ export default {
   },
   created() {
     // 获取配置的wx标题和img图片
-      this.name = this.$route.params.name
+      this.name = this.$route.query.name
       this.getShareList().then(response => {
-      this.wxList = response[this.$route.params.index].title
-      this.headerTitle = response[this.$route.params.index].title
+      this.wxList = response[this.$route.query.index].title
+      this.headerTitle = response[this.$route.query.index].title
       // 微信链接配置
-      this.WXconfig.wxShowMenu(response[this.$route.params.index])
+      this.WXconfig.wxShowMenu(response[this.$route.query.index])
       let id = Lockr.get('id')
       let index = Lockr.get('index')
       if(id){
         this.headerCli(index,id)
       }else{
-        this.getListJson('1', response[this.$route.params.index])
+        this.getListJson('1', response[this.$route.query.index])
       }
-      // 获取主页的新闻列表
-      
     })
   },
   methods: {
@@ -102,7 +100,7 @@ export default {
         this.$http
           .get(`${shareUrl}/young/code/getPartyList.do`, {
             params: {
-              date: this.$route.params.date
+              data: this.$route.query.date
             }
           })
           .then(response => {
@@ -121,8 +119,8 @@ export default {
             Type: id,
             currentPage: 1,
             showCount: 4,
-            date: this.$route.params.date,
-            partya: this.$route.params.name
+            date: this.$route.query.date,
+            partya: this.$route.query.name
           })
           .then(response => {
             this.newList = response.data
@@ -138,8 +136,8 @@ export default {
             Type: this.myIndex,
             currentPage: this.currentPage,
             showCount: this.showCount,
-            date: this.$route.params.date,
-            partya: this.$route.params.name
+            date: this.$route.query.date,
+            partya: this.$route.query.name
           })
           .then(response => {
             if (!response.data.length) {

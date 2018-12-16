@@ -1,18 +1,22 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import newList from '@/components/newList/newList'
-import newDetail from '@/components/newDetail/newDetail'
-import wxShare from '@/components/wxShare/wxShare'
-import NotFoundComponent from '@/base/NotFoundComponent/NotFoundComponent'
-Vue.use(Router)
-export default new Router({
-  //mode: 'history',
-  routes: [{
-    path: '/:date/:name/:index/',
+import {_loadComponents} from 'common/js/util'
+const newList = function(resolve,reject){
+  _loadComponents(resolve,reject,"newList/newList")
+}
+const newDetail = function(resolve,reject){
+  _loadComponents(resolve,reject,"newDetail/newDetail")
+}
+const wxShare = function(resolve,reject){
+  _loadComponents(resolve,reject,"wxShare/wxShare")
+}
+const NotFoundComponent = function(resolve,reject){
+  _loadComponents(resolve,reject,"NotFoundComponent/NotFoundComponent")
+}
+export default[{
+    path: '/newList',
     name: 'newList',
     component: newList,
   }, {
-    path: '/newDetail/:id',
+    path: '/newDetail',
     name: 'newDetail',
     component: newDetail,
   }, {
@@ -22,5 +26,4 @@ export default new Router({
   }, {
     path: '*',
     component: NotFoundComponent
-  }, ]
-})
+  }]
