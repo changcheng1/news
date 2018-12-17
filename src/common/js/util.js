@@ -1,26 +1,24 @@
-window.__timer = null;
-window.__timeout = 1500; //加载超时时间
-window.__tryMax = 15; //加载失败后重复加载的次数
-
-export function _loadComponent(resolve,reject,page){
-    import (`page/${page}.vue`).then(module => {
+window._timer = null;
+window._timeout = 1500;
+window._tryMax = 15;
+export  let _loadComponents = (resolve,reject,page)=>{
+    import (`page/${page}.vue`).then(module=>{
         resolve(module)
-    }).catch(err => {
+    }).catch(err=>{
         _loadError(resolve,reject,page)
     })
 }
-export function _loadError(resolve,reject,page){
-    window.__tryCount += 1
-    if (window.__tryCount > window.__tryMax) { // 若超出最大尝试次数则 reject
+export let _loadError = (resolve,reject,page)=>{
+    window.tryCount += 1;
+    if(window._tryCount > window._tryMax){
         reject(_tipsCallback())
-    } else {
-        window.__timer= setTimeout(() => {
-            clearTimeout(window.__timer)
-            _loadComponent(resolve,reject,page)
-        }, window.__timeout)
+    }else{
+        window._timer = setInterval(()=>{
+            clearInterval(window._timer)
+            _loadComponents(resolve,reject,page)
+        })
     }
 }
-const _tipsCallback=function() {
-    //加载最大次数失败后 提示 
-    alert('请检查网络后重试!')
+export let _tipsCallback = ()=>{
+    alert('模板加载失败，请检查您的路径是否正确')
 }

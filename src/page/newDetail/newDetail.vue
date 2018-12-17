@@ -38,7 +38,7 @@ export default {
       this.$http
         .get(`${url}detail.do`, {
           params: {
-            id: this.$route.query.id
+            id: this.$route.params.id
           }
         })
         .then(function(response) {

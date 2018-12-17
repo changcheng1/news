@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <header>
-      <div>{{name}}舆情简报</div>
+      <div>{{$route.query.name}}舆情简报</div>
     </header>
     <div class="top_menu_list">
       <a v-for="(item,index) in headerList" :key="index" @click="headerCli(index,item.id)" :class="{'current':currentIndex===index}" class="header_item">{{item.name}}</a>
@@ -67,8 +67,8 @@ export default {
       ]
     }
   },
-  created() {
-    // 获取配置的wx标题和img图片
+  activated() {
+      // 获取配置的wx标题和img图片
       this.name = this.$route.query.name
       this.getShareList().then(response => {
       this.wxList = response[this.$route.query.index].title
@@ -82,8 +82,6 @@ export default {
       }else{
         this.getListJson('1', response[this.$route.query.index])
       }
-      // 获取主页的新闻列表
-      
     })
   },
   methods: {
@@ -102,7 +100,7 @@ export default {
         this.$http
           .get(`${shareUrl}/young/code/getPartyList.do`, {
             params: {
-              date: this.$route.query.date
+              data: this.$route.query.date
             }
           })
           .then(response => {
@@ -174,10 +172,7 @@ export default {
         window.location.href = item.URL
       } else {
         this.$router.push({
-          path:'/newDetail',
-          query:{
-            id:item.NEWS_ID
-          }
+          path: `/newDetail/${item.NEWS_ID}`
         })
       }
     }
