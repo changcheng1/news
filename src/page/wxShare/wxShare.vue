@@ -58,7 +58,7 @@ export default {
       let date = window.location.href.split('=')[1]
       this.$router.push({
         path:'/newList',
-        query:{date:date,name:item.NAME,index:index}
+        query:{date:date,name:item.NAME,index:index,data:item.modules}
       })
     }
   },
