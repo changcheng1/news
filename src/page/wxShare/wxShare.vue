@@ -32,7 +32,7 @@ export default {
     return {
       newList: '',
       contentArr: [],
-      parmsDate: window.location.href.split('=')[1]
+      parmsDate: this.$route.query.date
     }
   },
   created() {
@@ -44,7 +44,7 @@ export default {
       this.$http
         .get(`${shareUrl}/young/code/getPartyList.do`, {
           params: {
-            date: window.location.href.split('=')[1]
+            date: this.$route.query.date
           }
         })
         .then(response => {
@@ -55,10 +55,10 @@ export default {
         })
     },
     shareNews(item, index) {
-      let date = window.location.href.split('=')[1]
+      let date = this.$route.query.date
       this.$router.push({
         path:'/newList',
-        query:{date:date,name:item.NAME,index:index}
+        query:{date:date,name:item.NAME,index:index,data:item.modules}
       })
     }
   },
