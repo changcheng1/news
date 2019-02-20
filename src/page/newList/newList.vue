@@ -76,7 +76,7 @@ export default {
     headerCli(index, id) {
       Lockr.set('index',index)
       Lockr.set('id',id)
-      this.myIndex = Number(id)
+      this.myIndex = id
       this.currentIndex = index
       this.currentPage = 1
       this.getListJson(this.myIndex).then(function() {
