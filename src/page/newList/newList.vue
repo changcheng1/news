@@ -57,7 +57,7 @@ export default {
   activated() {
       // 获取配置的wx标题和img图片
       this.name = this.$route.query.name
-      this.headerList = this.$route.query.data
+      this.getWxShare()
       this.getShareList().then(response => {
       this.wxList = response[this.$route.query.index].title
       this.headerTitle = response[this.$route.query.index].title
@@ -83,12 +83,32 @@ export default {
         this.$refs.wrapper.refresh()
       })
     },
+    getWxShare() {
+      this.$http
+        .get(`${shareUrl}/young/code/getPartyList.do`, {
+          params: {
+            date: this.$route.query.date
+          }
+        })
+        .then(response => {
+          console.log('res',response)
+          response.data.forEach(element => {
+              if(element.NAME == this.$route.query.name){
+                console.log(element)
+                this.headerList = element.modules
+              }
+          });
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     getShareList() {
       return new Promise((resolve, reject) => {
         this.$http
           .get(`${shareUrl}/young/code/getPartyList.do`, {
             params: {
-              data: this.$route.query.date
+              date: this.$route.query.date
             }
           })
           .then(response => {
